@@ -48,4 +48,27 @@ describe('SearchBar', () => {
 		expect(onQuery).toHaveBeenCalledTimes(1);
 		expect(onQuery).toHaveBeenCalledWith('test');
 	});
+
+	test('should call onQuery when button clicked with the input value', () => {
+		const onQuery = vi.fn();
+		render(<SearchBar onQuery={onQuery} />);
+
+		const input = screen.getByRole('textbox');
+		fireEvent.change(input, { target: { value: 'test' } });
+
+		const button = screen.getByRole('button');
+		fireEvent.click(button);
+
+		expect(onQuery).toHaveBeenCalledTimes(1);
+		expect(onQuery).toHaveBeenCalledWith('test');
+	});
+
+	test('should the input has the correct placeholder value', () => {
+		const value = 'Buscar gif';
+
+		render(<SearchBar placeholder={value} onQuery={() => {}} />);
+
+		// expect(screen.getByText('Buscar gif'));
+		expect(screen.getByPlaceholderText(value)).toBeDefined();
+	});
 });
